@@ -1,5 +1,20 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit"
 
-// BEGIN (write your solution here)
+const postsAdapter = createEntityAdapter()
+let st8 = postsAdapter.getInitialState()
 
-// END
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState: st8,
+  reducers: {
+    addPost(state, action) {
+      postsAdapter.addOne(state, action)
+    },
+    addPosts: (state, action) => { postsAdapter.addMany(state, action) },
+    updatePost: (state, action) => postsAdapter.updateOne(state, action)
+  }
+})
+
+export const { actions, reducer } = postsSlice
+export const selectors = postsAdapter.getSelectors(s => s.posts)
+export default reducer

@@ -14,7 +14,14 @@ const commentsSlice = createSlice({
     addComment: commentsAdapter.addOne,
   },
   // BEGIN (write your solution here)
-
+  removeComment: commentsAdapter.removeOne, // Удаление отдельного комментария
+  removeCommentsByPostId: (state, action) => {
+    const { postId } = action.payload;
+    const commentIds = Object.values(state.entities)
+      .filter(comment => comment.postId === postId)
+      .map(comment => comment.id);
+    commentsAdapter.removeMany(commentIds, state); // Удаление комментариев поста
+  },
   // END
 });
 

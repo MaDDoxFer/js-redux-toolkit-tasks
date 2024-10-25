@@ -1,38 +1,33 @@
 import React from 'react';
 import Spinner from './Spinner.jsx';
 import TodoForm from './TodoForm.jsx';
-// BEGIN (write your solution here)
-
-// END
+import { useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } from '../services/tasksApi';
 
 const TodoBox = () => {
-  // BEGIN (write your solution here)
+  const { data: tasks = [], isLoading } = useGetTasksQuery();
+  const [createTask] = useCreateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
 
-  // END
-
-  const handleDeleteTask = (event, id) => {
+  const handleDeleteTask = async (event, id) => {
     event.preventDefault();
-    // BEGIN (write your solution here)
-
-    // END
+    await deleteTask(id);
   };
 
-  const handleSubmitForm = (event, newTaskText) => {
+  const handleSubmitForm = async (event, newTaskText) => {
     event.preventDefault();
-    // BEGIN (write your solution here)
-
-    // END
+    try {
+      const newTask = await createTask({ text: newTaskText }).unwrap(); // Unwrap to handle response
+      console.log('Task created:', newTask); // Log the newly created task
+    } catch (error) {
+      console.error('Failed to create task:', error); // Handle errors here if needed
+    }
   };
 
   const renderTodo = () => (
-    <TodoForm
-      submitHandler={handleSubmitForm}
-    />
+    <TodoForm submitHandler={handleSubmitForm} />
   );
 
-  // BEGIN (write your solution here)
-
-  // END
+  if (isLoading) return <Spinner />;
 
   return (
     <div>
@@ -46,7 +41,9 @@ const TodoBox = () => {
               {task.id}
             </div>
             <div className="col">
-              <a href="" className="todo-task" onClick={(event) => handleDeleteTask(event, task.id)}>{task.text}</a>
+              <a href="" className="todo-task" onClick={(event) => handleDeleteTask(event, task.id)}>
+                {task.text}
+              </a>
             </div>
           </div>
         ))}

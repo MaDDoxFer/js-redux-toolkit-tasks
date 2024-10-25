@@ -1,3 +1,4 @@
+// postsSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -9,13 +10,15 @@ const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    setPosts(state, { payload }) {
-      // BEGIN (write your solution here)
-
-      // END
+    setPosts: (state, action) => {
+      const posts = action.payload;
+      posts.forEach((post) => {
+        state.ids.push(post.id); // Добавляем ID поста
+        state.entities[post.id] = post; // Сохраняем пост
+      });
     },
   },
 });
 
-export const { actions } = postsSlice;
+export const { setPosts } = postsSlice.actions; // Экспортируем действия
 export default postsSlice.reducer;

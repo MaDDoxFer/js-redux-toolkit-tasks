@@ -1,8 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
-import postsReducer from "./postsSlice.js";
-import commentsReducer from "./commentsSlice.js";
-import usersReducer from "./usersSlice.js";
+import { configureStore } from '@reduxjs/toolkit';
+import usersReducer from './usersSlice';
+import postsReducer from './postsSlice';
+import commentsReducer from './commentsSlice';
 
-// BEGIN (write your solution here)
+const rootReducer = {
+  users: usersReducer,
+  posts: postsReducer,
+  comments: commentsReducer,
+};
 
-// END
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+export default store;
